@@ -53,4 +53,4 @@ def login_view(request):
 def logout_view(request):
 	logout(request)
 	messages.info(request, "You have successfully logged out.") 
-	return redirect("core:homepage")
+	return redirect("core:home")
