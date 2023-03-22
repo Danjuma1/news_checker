@@ -9,4 +9,4 @@ class NewsForm(forms.ModelForm):
     
     class Meta:
         model = News
-        fields = ("headline", "content")
+        fields = ("headline", "author","content")
