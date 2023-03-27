@@ -9,7 +9,6 @@ from .forms import NewUserForm
 from .models import UserProfile
 
 
-
 # View for Registration 
 def register_view(request):
 	if request.method == "POST":
