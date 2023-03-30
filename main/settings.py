@@ -87,7 +87,7 @@ WSGI_APPLICATION = 'main.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE'  : 'django.db.backends.mysql', # <-- UPDATED line 
-        'NAME'    : 'new_checker',              # <-- UPDATED line 
+        'NAME'    : 'news_checker',              # <-- UPDATED line 
         'USER'    : 'mvc',                     # <-- UPDATED line
         'PASSWORD': 'Communi_cate',              # <-- UPDATED line
         'HOST'    : 'localhost',                # <-- UPDATED line
