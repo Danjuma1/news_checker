@@ -1,0 +1,15 @@
+<center>
+    <h2>Thank you!</h2>
+  
+  {% if "user_choice" in args_sent_by_user %}
+    <p>We'll store and process your results for better predictions.</p>
+
+  {% else %}
+    <p>We won't save any data of yours.</p>
+  {% endif %}
+
+  <a class="waves-effect waves-light btn-large" href="{% url 'core:home' %}"><i class="material-icons left">science</i>Try again</a>
+
+  </center>
+
+  <br>

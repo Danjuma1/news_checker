@@ -1,4 +1,18 @@
-{% extends 'core/dash_base.html' %}
+
+<form method="" action="{% url 'core:result' %}" autocomplete="off">
+  {% csrf_token %}
+
+  {{ form }}
+  <br>
+
+  <button class="btn waves-effect waves-light btn" style="width: 100%;" type="submit" name="action">FACT-CHECK
+      <i class="material-icons right">mood</i>
+  </button>
+</form>
+
+
+
+{% comment %} {% extends 'core/dash_base.html' %}
 {% load static %}
 {% load widget_tweaks %}
 
@@ -36,7 +50,7 @@
             <br>
             <p>{{ n.content }}</p>
             <!-- poster username will be here with time of posting also  -->
-            {% endfor %} {% endcomment %}
+            {% endfor %}
           
         </div>
     </div>
@@ -44,4 +58,4 @@
 </div>
 
 
-{% endblock content %}
+{% endblock content %} {% endcomment %}
