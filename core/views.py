@@ -66,14 +66,6 @@ def home_view(request):
 
 
 def dashboard_view(request):
-    if request.method == 'GET':
-        form = NewsForm()
-    checked_news = News.objects.all().order_by("-id")
-    context={"form": form, "checked_news": checked_news}
-    return render(request, 'core/dashboard.html', context)
-
-
-def result_view(request):
     out =''
     form = NewsForm()
     if request.method == "POST":
@@ -90,9 +82,14 @@ def result_view(request):
             saved_news = News.objects.create(headline=headline, author=author, content=content, label=label)
             saved_news.save()
 
-    context = {
-        'form': form,
-        'output': out,
+    checked_news = News.objects.all().order_by("-id")
+    context={"form": form,
+            'output': out, 
+            "checked_news": checked_news,
     }
-    return render(request, 'core/result.html', context)
+    return render(request, 'core/dashboard.html', context)
+
+
+def result_view(request):
+    return render(request, 'core/result.html')
 
