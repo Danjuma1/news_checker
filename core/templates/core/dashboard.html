@@ -1,26 +1,62 @@
-
-<form method="" action="{% url 'core:result' %}" autocomplete="off">
-  {% csrf_token %}
-
-  {{ form }}
-  <br>
-
-  <button class="btn waves-effect waves-light btn" style="width: 100%;" type="submit" name="action">FACT-CHECK
-      <i class="material-icons right">mood</i>
-  </button>
-</form>
-
-
-
-{% comment %} {% extends 'core/dash_base.html' %}
+{% extends 'core/dash_base.html' %}
 {% load static %}
 {% load widget_tweaks %}
 
+{% block sidebar %}
+
+<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+    <div class="position-sticky pt-3 sidebar-sticky">
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">
+            <span data-feather="home" class="align-text-bottom"></span>
+            Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <span data-feather="file-text" class="align-text-bottom"></span>
+            All Checked News
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <span data-feather="#" class="align-text-bottom"></span>
+            All True News
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <span data-feather="#" class="align-text-bottom"></span>
+            All Fake News
+          </a>
+        </li>
+      </ul>
+
+      <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
+        <span>For you</span>
+      </h6>
+      <ul class="nav flex-column mb-2">
+        <li class="nav-item">
+          <a class="nav-link" href="#">
+            <span data-feather="user" class="align-text-bottom"></span>
+            Profile
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+{% endblock sidebar %}
+
 {% block content %}
 
-<div class="">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Verify a News</h1>
+</div>
+
     <div class="container">
-        <form method="POST">
+        <form method="POST" action="">
             {% csrf_token %}
             <div class="form-floating" style="margin-bottom: 20px;">
                 {% render_field form.headline type="text" class="form-control" id="floatingInputValue" placeholder="Headline" %}
@@ -38,24 +74,36 @@
             <button type="submit" class="btn btn-primary btn-lg">Verify</button>
         </form>
     </div>
+    <br><br>
 
-    <br>
-   
-        <div class="container">
-            <h2><a href="">  Headline of Recent Posted News </a></h2>
-            <br>
-
-            {% comment %} {% for n in checked_news %}
-            <h5>{{ n.headline }} <button class="btn btn-success btn-lg">True News</button></h5>
-            <br>
-            <p>{{ n.content }}</p>
-            <!-- poster username will be here with time of posting also  -->
-            {% endfor %}
-          
+    <div class="container">
+        <div class="border-dark" id="result">
+            {% if output == "True News" %}
+            <h1 class="border-success" style="color: green;">{{ output }}</h1>
+            {% else %}
+            <h1 class="border-success" style="color: red;">{{ output }}</h1>
+            {% endif %}
         </div>
     </div>
 
-</div>
+    <br><br>
 
+    <h3>Headlines of Recently Verified News</h3>
 
-{% endblock content %} {% endcomment %}
+      <div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <tbody>
+            {% for n in checked_news %}
+            <tr>
+              {% if n.label == "True News" %}<td style="color: green;"><strong>{{ n.label }}</strong></td>
+              {% else %}<td style="color: red;"><strong>{{ n.label }}</strong></td>
+              {% endif %}
+              <td>{{ n.headline }}</td>
+              
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+{% endblock content %}
