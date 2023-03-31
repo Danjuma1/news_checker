@@ -77,8 +77,6 @@ def dashboard_view(request):
             content = form.cleaned_data.get('content')
             out = manual_testing(content)
             label = out
-            print(content)
-            print('output', out)
             saved_news = News.objects.create(headline=headline, author=author, content=content, label=label)
             saved_news.save()
 
