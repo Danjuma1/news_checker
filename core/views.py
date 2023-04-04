@@ -65,13 +65,14 @@ def home_view(request):
     return render(request, 'core/home.html')
 
 
+@login_required
 def dashboard_view(request):
     out =''
     form = NewsForm()
     if request.method == "POST":
         form = NewsForm(request.POST)
         if form.is_valid():
-            sent_news = form.save()
+            # sent_news = form.save()
             headline = form.cleaned_data.get('headline')
             author = form.cleaned_data.get('author')
             content = form.cleaned_data.get('content')
@@ -88,6 +89,39 @@ def dashboard_view(request):
     return render(request, 'core/dashboard.html', context)
 
 
-def result_view(request):
-    return render(request, 'core/result.html')
+# def result_view(request):
+#     out = request.session['out']
+#     context = {
+#         'output': out
+#     }
+#     return render(request, 'core/result.html', context)
 
+@login_required
+def news_list_view(request):
+    all_news = News.objects.all().order_by("-id")
+
+    context = {
+        'all_news': all_news,
+    }
+    
+    return render(request, 'core/all_news_list.html', context)
+
+@login_required
+def true_news_list_view(request):
+    true_news = News.objects.all().filter(label="True News")
+
+    context = {
+        'true_news': true_news,
+    }
+    
+    return render(request, 'core/true_news_list.html', context)
+
+@login_required
+def fake_news_list_view(request):
+    fake_news = News.objects.all().filter(label="Fake News")
+
+    context = {
+        'fake_news': fake_news,
+    }
+    
+    return render(request, 'core/fake_news_list.html', context)
