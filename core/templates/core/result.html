@@ -1,46 +1,11 @@
-<h1 class="mb-5 p-lg-5 h2">Cheak news</h1>
-  <div>
-    <form action="" method="post">
-      {% csrf_token %}
-      {{ form }}
-
-      <div class="p-lg-5 m-5">
-        <button type="submit" class="btn btn-primary">Check now</button>
-      </div>
-    </form>
-    <div class="border-dark">
-      <h1 class="border-success">{{ output }}</h1>
-    </div>
-   
+<div class="container">
+  <div class="border-dark" id="result">
+      {% if output == "True News" %}
+      <h1 class="border-success" style="color: green;">{{ output }}</h1>
+      {% else %}
+      <h1 class="border-success" style="color: red;">{{ output }}</h1>
+      {% endif %}
   </div>
+</div>
 
-
-{% comment %} <center>
-    <h2>We believe that news article {{form_params.headline}} could be potentially</h2>
-    
-    {% if ans == 'Fake' %}
-      <strong style="font-size: 10rem; color: red;">{{ans}}</strong>
-  
-    {% else %}
-      <strong style="font-size: 10rem; color: green;">{{ans}}</strong>
-    
-    {% endif %}
-    
-    </center>
-    
-    <p>Check the next checkbox if you'll like to save the result.</p>
-  
-    <form action="{% url 'core:save' %}">
-      {% csrf_token %}
-  
-      <p>
-        <label>
-          <input type="checkbox" name="user_choice" />
-          <span>Save the news.</span>
-        </label>
-      </p>
-  
-      <button style="width: 100%;" type="submit" name="submit_button">SAVE NEWS
-          <i class="material-icons right">send</i>
-      </button>
-    </form> {% endcomment %}
+<button action='{% url 'core:dashboard' %}'>Return to Home</button>
