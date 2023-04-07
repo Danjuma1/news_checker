@@ -10,4 +10,6 @@ urlpatterns = [
     path("all_news/", views.news_list_view, name="news_list"),
     path("all_true_news/", views.true_news_list_view, name="true_news_list"),
     path("all_fake_news/", views.fake_news_list_view, name="fake_news_list"),
+    path("profile/@<username>/", views.profile_view, name="profile"),
+    path("news/<news_id>/", views.news_delete_view, name="delete_news"),
 ]
