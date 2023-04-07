@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.template import loader
+from django.contrib.auth.models import User
 
 
 import joblib
@@ -23,6 +24,8 @@ import pickle
 
 from .models import News
 from .forms import NewsForm
+
+from accounts.models import UserProfile
 
 stop_words = set(stopwords.words('english'))
 
@@ -69,6 +72,7 @@ def home_view(request):
 def dashboard_view(request):
     out =''
     form = NewsForm()
+    user = request.user
     if request.method == "POST":
         form = NewsForm(request.POST)
         if form.is_valid():
@@ -78,7 +82,7 @@ def dashboard_view(request):
             content = form.cleaned_data.get('content')
             out = manual_testing(content)
             label = out
-            saved_news = News.objects.create(headline=headline, author=author, content=content, label=label)
+            saved_news = News.objects.create(user=user, headline=headline, author=author, content=content, label=label)
             saved_news.save()
 
     checked_news = News.objects.all().order_by("-id")
@@ -125,3 +129,31 @@ def fake_news_list_view(request):
     }
     
     return render(request, 'core/fake_news_list.html', context)
+
+
+@login_required
+def profile_view(request, username):
+    user = get_object_or_404(User, username=username)
+    profile = UserProfile.objects.filter(user=user)
+    posts = News.objects.filter(user=user).order_by('-date_added')
+
+    context = {
+        'user': user,
+        'profile': profile,
+        'posts': posts,
+    }
+
+    return render(request, 'core/profile.html', context)
+
+@login_required
+def news_delete_view(request, news_id):
+    news = get_object_or_404(News, id=news_id)
+
+    if request.method == 'POST':
+        news.delete()
+        return redirect('core:profile')
+    
+    context = {
+        'news': news,
+    }
+    return render(request, 'core/news_delete.html', context)
