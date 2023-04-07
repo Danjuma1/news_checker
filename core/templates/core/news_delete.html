@@ -1,6 +1,5 @@
 {% extends 'core/dash_base.html' %}
 {% load static %}
-{% load widget_tweaks %}
 
 {% block sidebar %}
 
@@ -26,7 +25,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="{% url 'core:fake_news_list' %}">
+          <a class="nav-link" href="{% url 'core:fake_news_list' %}">
             <span data-feather="#" class="align-text-bottom"></span>
             All Fake News
           </a>
@@ -38,7 +37,7 @@
       </h6>
       <ul class="nav flex-column mb-2">
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'core:profile' user.username %}">
+          <a class="nav-link active" href="{% url 'core:profile' user.username %}">
             <span data-feather="user" class="align-text-bottom"></span>
             Profile
           </a>
@@ -49,30 +48,20 @@
 
 {% endblock sidebar %}
 
+
+
 {% block content %}
-
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">All Fake News</h1>
-</div>
-
-      <div class="accordion accordion-flush" id="accordionFlushExample">
-        {% for n in fake_news %}
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-              <span class="badge text-bg-danger">{{ n.label }}</span>
-              &nbsp;  &nbsp;
-              {{ n.headline }}
-            </button>
-          </h2>
-          <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-            <div class="accordion-body">
-              <span class="sm" style="font-size: 10px;">Checked on: {{n.date_added}} by {{ n.user | title }} | Author: {{ n.author }} </span>
-              <br> {{ n.content | slice:":300" }}...
-            </div>
-          </div>
+<div class="container">
+    {% comment %} {%if news.created_by == request.user%} {% endcomment %}
+          <h5 class="modal-title">Delete News</h5>
+          <hr>
+        <div class="body">
+          <p>Are you sure you want to delete <strong>{{news.headline}}</strong></p>
         </div>
-        {% endfor %}
-      </div>
-
+        <form method="POST" class="modal-footer">
+            {%csrf_token%}
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+    {% comment %} {% endif %} {% endcomment %}
+  </div>
 {% endblock content %}

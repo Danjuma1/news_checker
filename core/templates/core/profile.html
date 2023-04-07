@@ -8,7 +8,7 @@
     <div class="position-sticky pt-3 sidebar-sticky">
       <ul class="nav flex-column">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url 'core:dashboard' %}">
+          <a class="nav-link" aria-current="page" href="{% url 'core:dashboard' %}">
             <span data-feather="home" class="align-text-bottom"></span>
             Home
           </a>
@@ -38,64 +38,30 @@
       </h6>
       <ul class="nav flex-column mb-2">
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'core:profile' user.username %}">
+          <a class="nav-link active" href="{% url 'core:profile' user.username %}">
             <span data-feather="user" class="align-text-bottom"></span>
             Profile
           </a>
         </li>
       </ul>
     </div>
-</nav>
+  </nav>
 
 {% endblock sidebar %}
 
 {% block content %}
 
-<div class="container">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2"> <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+        <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+      </svg> &nbsp; {{ user.username | title }}</h1>
+</div>
 
-  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-      <h1 class="h2">Verify a News</h1>
-  </div>
-
-      <div class="container">
-          <form method="POST" action="">
-              {% csrf_token %}
-              <div class="form-floating" style="margin-bottom: 20px;">
-                  {% render_field form.headline type="text" class="form-control" id="floatingInputValue" placeholder="Headline" %}
-                  <label for="floatingInputValue">Headline</label>
-              </div> 
-              <div class="form-floating" style="margin-bottom: 20px;">
-                  {% render_field form.author type="text" class="form-control" id="floatingInputValue" placeholder="Headline" %}
-                  <label for="floatingInputValue">Relaiable Author/ source</label>
-              </div>
-              <div class="form-floating">
-                  {% render_field form.content class="form-control" placeholder="Paste the news content here..." id="floatingTextarea2" style="height: 200px" %}
-                  <label for="floatingTextarea2">Content</label>
-              </div>
-              <br>
-              <button type="submit" class="btn btn-primary btn-lg">Verify</button>
-          </form>
-      </div>
-      <br><br>
-
-      {% if output %}
-      <div class="container">
-        <div class="border-dark" id="result">
-            {% if output == "True News" %}
-            <h1 class="border-success" style="color: green;">{{ output }}</h1>
-            {% else %}
-            <h1 class="border-success" style="color: red;">{{ output }}</h1>
-            {% endif %}
-        </div>
-      </div>
-      {% endif %}
-
-      <br><br>
-
-      <h3>Headlines of Recently Verified News</h3>
+<h3>News you've verified</h3>
 
         <div class="accordion accordion-flush" id="accordionFlushExample">
-          {% for n in checked_news %}
+          {% for n in posts %}
           <div class="accordion-item">
             <h2 class="accordion-header">
               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
@@ -109,11 +75,13 @@
             <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
               <div class="accordion-body">
                 <span class="sm" style="font-size: 10px;">Checked on: {{n.date_added}} by {{ n.user | title }} | Author: {{ n.author }} </span>
-                <br> {{ n.content | slice:":300" }}...
+                <br> {{ n.content  | slice:":500" }} <br>
+                <span><a href="{% url 'core:delete_news' n.id %}">Delete</a></span>
               </div>
             </div>
           </div>
           {% endfor %}
         </div>
-</div>
+
+
 {% endblock content %}
