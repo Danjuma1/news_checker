@@ -67,7 +67,6 @@ def manual_testing(news):
 def home_view(request):
     return render(request, 'core/home.html')
 
-
 @login_required
 def dashboard_view(request):
     out =''
@@ -77,6 +76,7 @@ def dashboard_view(request):
         form = NewsForm(request.POST)
         if form.is_valid():
             # sent_news = form.save()
+            redirect('/')
             headline = form.cleaned_data.get('headline')
             author = form.cleaned_data.get('author')
             content = form.cleaned_data.get('content')
@@ -99,6 +99,16 @@ def dashboard_view(request):
 #         'output': out
 #     }
 #     return render(request, 'core/result.html', context)
+
+def home(request):
+    news = News.objects.all()
+
+    context = {
+        'news': news,
+    }
+    
+    return render(request, 'core/home.html', context)
+
 
 @login_required
 def news_list_view(request):
@@ -148,12 +158,31 @@ def profile_view(request, username):
 @login_required
 def news_delete_view(request, news_id):
     news = get_object_or_404(News, id=news_id)
+    user = request.user.username 
 
     if request.method == 'POST':
         news.delete()
-        return redirect('core:profile')
+        return redirect('core:profile',user)
     
     context = {
         'news': news,
     }
     return render(request, 'core/news_delete.html', context)
+
+
+@login_required
+def each_news_view(request, news_id):
+    news = get_object_or_404(News, id=news_id)
+    context = {
+        'news': news,
+    }
+    return render(request, 'core/each_news.html', context)
+
+def outside_news_views(request):
+    all_news = News.objects.all().order_by("-id")
+
+    context = {
+        'all_news': all_news,
+    }
+    
+    return render(request, 'core/outside_news.html', context)

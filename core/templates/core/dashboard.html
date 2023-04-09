@@ -3,7 +3,6 @@
 {% load widget_tweaks %}
 
 {% block sidebar %}
-
 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
     <div class="position-sticky pt-3 sidebar-sticky">
       <ul class="nav flex-column">
@@ -108,12 +107,15 @@
             </h2>
             <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
               <div class="accordion-body">
-                <span class="sm" style="font-size: 10px;">Checked on: {{n.date_added}} by {{ n.user | title }} | Author: {{ n.author }} </span>
-                <br> {{ n.content | slice:":300" }}...
+                <span class="sm" style="font-size: 20px;">Checked on: {{n.date_added}} by {{ n.user | title }} | Author: {{ n.author }} </span>
+                <br> {{ n.content | slice:":500" }}...
               </div>
             </div>
           </div>
           {% endfor %}
         </div>
+
+   <br>
+   <br>
 </div>
 {% endblock content %}

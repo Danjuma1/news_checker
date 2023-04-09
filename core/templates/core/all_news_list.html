@@ -8,7 +8,7 @@
     <div class="position-sticky pt-3 sidebar-sticky">
       <ul class="nav flex-column">
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="{% url 'core:dashboard' %}">
+          <a class="nav-link"  href="{% url 'core:dashboard' %}">
             <span data-feather="home" class="align-text-bottom"></span>
             Home
           </a>
@@ -26,7 +26,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'core:fake_news_list' %}">
+          <a class="nav-link" aria-current="page" href="{% url 'core:fake_news_list' %}">
             <span data-feather="#" class="align-text-bottom"></span>
             All Fake News
           </a>
@@ -69,8 +69,10 @@
           </h2>
           <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
             <div class="accordion-body">
-              <span class="sm" style="font-size: 10px;">Checked on: {{n.date_added}} by {{ n.user | title }} | Author: {{ n.author }} </span>
-              <br> {{ n.content | slice:":300" }}...
+              <span class="sm" style="font-size: 20px;">Checked on: {{n.date_added}} by {{ n.user | title }} | Author: {{ n.author }} </span>
+              <br> {{ n.content | slice:":500" }}...
+              <span><a href="{% url 'core:each_news' n.id %}">View Entire Aricle</a></span>
+
             </div>
           </div>
         </div>

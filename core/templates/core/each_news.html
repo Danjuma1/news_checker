@@ -52,17 +52,16 @@
 
 {% block content %}
 <div class="container">
-    {% comment %} {%if news.created_by == request.user%} {% endcomment %}
-          <h5 class="modal-title">Delete News</h5>
+          <h5 class="modal-title">View News</h5>
           <hr>
         <div class="body">
-          <p>Are you sure you want to delete <strong>{{news.headline}}</strong></p>
+          <p> <strong>{{news.headline}}</strong></p>
+          {% if news.label == "True News" %}<span class="badge text-bg-success">{{ news.label }}</span>
+          {% else %}<span class="badge text-bg-danger">{{ news.label }}</span>
+          {% endif %}
           <p> {{news.content}}</p>
         </div>
-        <form method="POST" class="modal-footer">
-            {%csrf_token%}
-          <button type="submit" class="btn btn-danger">Delete</button>
-        </form>
-    {% comment %} {% endif %} {% endcomment %}
+        
+  {% comment %} {% endif %} {% endcomment %} 
   </div>
 {% endblock content %}
